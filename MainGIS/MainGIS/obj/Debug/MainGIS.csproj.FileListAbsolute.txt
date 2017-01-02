@@ -1,0 +1,10 @@
+D:\test2\MainGIS\MainGIS\bin\Debug\MainGIS.exe.config
+D:\test2\MainGIS\MainGIS\bin\Debug\MainGIS.exe
+D:\test2\MainGIS\MainGIS\bin\Debug\MainGIS.pdb
+D:\test2\MainGIS\MainGIS\obj\Debug\MainGIS.Form1.resources
+D:\test2\MainGIS\MainGIS\obj\Debug\MainGIS.Properties.Resources.resources
+D:\test2\MainGIS\MainGIS\obj\Debug\MainGIS.csproj.GenerateResource.Cache
+D:\test2\MainGIS\MainGIS\obj\Debug\MainGIS.exe
+D:\test2\MainGIS\MainGIS\obj\Debug\MainGIS.pdb
+D:\test2\MainGIS\MainGIS\obj\Debug\MainGIS.frmAttributeTable.resources
+D:\test2\MainGIS\MainGIS\obj\Debug\MainGIS.frmOpenMDB.resources
