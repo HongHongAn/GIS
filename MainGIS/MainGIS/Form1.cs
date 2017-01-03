@@ -1,6 +1,7 @@
 ﻿using ESRI.ArcGIS.Carto;
 using ESRI.ArcGIS.Controls;
 using ESRI.ArcGIS.DataSourcesGDB;
+using ESRI.ArcGIS.DataSourcesRaster;
 using ESRI.ArcGIS.Display;
 using ESRI.ArcGIS.esriSystem;
 using ESRI.ArcGIS.Geodatabase;
@@ -183,5 +184,70 @@ namespace MainGIS
                 }
             }
         }
+
+        private void openRasterDatasetToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+        /// <summary>
+        /// return RasterWorkspace
+        /// </summary>
+        /// <param name="pWsName"></param>
+        /// <returns></returns>
+        IRasterWorkspace GetRasterWorkspace(string pWsName)
+        {
+            try
+            {
+                IWorkspaceFactory pWorkFact = new RasterWorkspaceFactoryClass();
+                return pWorkFact.OpenFromFile(pWsName, 0) as IRasterWorkspace;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        /// <summary>
+        /// return RasterDataset
+        /// </summary>
+        /// <param name="pFolderName"></param>
+        /// <param name="pFileName"></param>
+        /// <returns></returns>
+        IRasterDataset OpenFileRasterDataset(string pFolderName, string pFileName)
+        {
+            IRasterWorkspace pRasterWorkspace = GetRasterWorkspace(pFolderName);
+            IRasterDataset pRasterDataset = pRasterWorkspace.OpenRasterDataset(pFileName);
+            return pRasterDataset;
+        }
+        /*
+        /// <summary>
+        /// 打开栅格目录中的一个数据
+        /// </summary>
+        /// <param name="pCatalog"></param>
+        /// <param name="?"></param>
+        /// <returns></returns>
+        IRasterDataset GetRasterCatalogItem(IRasterCatalog pCatalog,pObjectID)
+        {
+            //栅格目录继承了IFeatureClass
+            IFeatureClass pFeatureClass = (IFeatureClass)pCatalog;
+            IRasterCatalogItem pRasterCatalogItem = (IRasterCatalogItem)pFeatureClass.GetFeature(pObjectID);
+            return pRasterCatalogItem.RasterDataset;
+        }
+        */
+        /// <summary>
+        /// 打开镶嵌数据集
+        /// </summary>
+        /// <param name="pFGDBPath"></param>
+        /// <param name="pMDame"></param>
+        /// <returns></returns>
+        IMosaicDataset GetMosicDataset(string pFGDBPath, string pMDame)
+        {
+            IWorkspaceFactory pWorkspaceFactory = new FileGDBWorkspaceFactoryClass();
+            IWorkspace pFgdbWorkspace = pWorkspaceFactory.OpenFromFile(pFGDBPath,0);
+            IMosaicWorkspaceExtensionHelper pMosaicExentionHelper = new MosaicWorkspaceExtensionHelperClass();
+            IMosaicWorkspaceExtension pMosaicExtention = pMosaicExentionHelper.FindExtension(pFgdbWorkspace);
+            return pMosaicExtention.OpenMosaicDataset(pMDame);
+        }
+
+
     }
 }

@@ -34,6 +34,8 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openMxdFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dataBaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openMDBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.axToolbarControl1 = new ESRI.ArcGIS.Controls.AxToolbarControl();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.axTOCControl1 = new ESRI.ArcGIS.Controls.AxTOCControl();
@@ -45,9 +47,8 @@
             this.axPageLayoutControl1 = new ESRI.ArcGIS.Controls.AxPageLayoutControl();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.dataBaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openMDBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openRasterDatasetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.axToolbarControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -97,6 +98,22 @@
             this.openToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.openToolStripMenuItem.Text = "Open Shape File";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
+            // 
+            // dataBaseToolStripMenuItem
+            // 
+            this.dataBaseToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openMDBToolStripMenuItem,
+            this.openRasterDatasetToolStripMenuItem});
+            this.dataBaseToolStripMenuItem.Name = "dataBaseToolStripMenuItem";
+            this.dataBaseToolStripMenuItem.Size = new System.Drawing.Size(75, 21);
+            this.dataBaseToolStripMenuItem.Text = "DataBase";
+            // 
+            // openMDBToolStripMenuItem
+            // 
+            this.openMDBToolStripMenuItem.Name = "openMDBToolStripMenuItem";
+            this.openMDBToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
+            this.openMDBToolStripMenuItem.Text = "Open MDB";
+            this.openMDBToolStripMenuItem.Click += new System.EventHandler(this.openMDBToolStripMenuItem_Click);
             // 
             // axToolbarControl1
             // 
@@ -204,7 +221,7 @@
             this.openToolStripMenuItem1,
             this.deleteToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(199, 70);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(199, 48);
             // 
             // openToolStripMenuItem1
             // 
@@ -213,27 +230,19 @@
             this.openToolStripMenuItem1.Text = "Open Attribute Table";
             this.openToolStripMenuItem1.Click += new System.EventHandler(this.openToolStripMenuItem1_Click);
             // 
-            // dataBaseToolStripMenuItem
-            // 
-            this.dataBaseToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openMDBToolStripMenuItem});
-            this.dataBaseToolStripMenuItem.Name = "dataBaseToolStripMenuItem";
-            this.dataBaseToolStripMenuItem.Size = new System.Drawing.Size(75, 21);
-            this.dataBaseToolStripMenuItem.Text = "DataBase";
-            // 
-            // openMDBToolStripMenuItem
-            // 
-            this.openMDBToolStripMenuItem.Name = "openMDBToolStripMenuItem";
-            this.openMDBToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.openMDBToolStripMenuItem.Text = "Open MDB";
-            this.openMDBToolStripMenuItem.Click += new System.EventHandler(this.openMDBToolStripMenuItem_Click);
-            // 
             // deleteToolStripMenuItem
             // 
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
             this.deleteToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
             this.deleteToolStripMenuItem.Text = "Delete Layer";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
+            // 
+            // openRasterDatasetToolStripMenuItem
+            // 
+            this.openRasterDatasetToolStripMenuItem.Name = "openRasterDatasetToolStripMenuItem";
+            this.openRasterDatasetToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
+            this.openRasterDatasetToolStripMenuItem.Text = "Open Raster Dataset";
+            this.openRasterDatasetToolStripMenuItem.Click += new System.EventHandler(this.openRasterDatasetToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -286,6 +295,7 @@
         private System.Windows.Forms.ToolStripMenuItem dataBaseToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openMDBToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openRasterDatasetToolStripMenuItem;
     }
 }
 

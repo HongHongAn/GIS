@@ -8,3 +8,4 @@ D:\test2\MainGIS\MainGIS\obj\Debug\MainGIS.exe
 D:\test2\MainGIS\MainGIS\obj\Debug\MainGIS.pdb
 D:\test2\MainGIS\MainGIS\obj\Debug\MainGIS.frmAttributeTable.resources
 D:\test2\MainGIS\MainGIS\obj\Debug\MainGIS.frmOpenMDB.resources
+D:\test2\MainGIS\MainGIS\obj\Debug\MainGIS.csprojResolveAssemblyReference.cache
