@@ -1,5 +1,6 @@
 ﻿using ESRI.ArcGIS.Carto;
 using ESRI.ArcGIS.Controls;
+using ESRI.ArcGIS.DataSourcesFile;
 using ESRI.ArcGIS.DataSourcesGDB;
 using ESRI.ArcGIS.DataSourcesRaster;
 using ESRI.ArcGIS.Display;
@@ -246,6 +247,119 @@ namespace MainGIS
             IMosaicWorkspaceExtensionHelper pMosaicExentionHelper = new MosaicWorkspaceExtensionHelperClass();
             IMosaicWorkspaceExtension pMosaicExtention = pMosaicExentionHelper.FindExtension(pFgdbWorkspace);
             return pMosaicExtention.OpenMosaicDataset(pMDame);
+        }
+        /// <summary>
+        /// 创建一个镶嵌数据集
+        /// </summary>
+        /// <param name="pFGDBPath"></param>
+        /// <param name="pMDame"></param>
+        /// <param name="pSrs"></param>
+        /// <returns></returns>
+        IMosaicDataset CreateMosaicDataset(string pFGDBPath, string pMDame,ISpatialReference pSrs)
+        {
+            IWorkspaceFactory pWorkspaceFactory = new FileGDBWorkspaceFactory();
+            IWorkspace pFgdbWorkspace = pWorkspaceFactory.OpenFromFile(pFGDBPath,0);
+            ICreateMosaicDatasetParameters pCreationPars = new CreateMosaicDatasetParametersClass();
+            pCreationPars.BandCount = 3;
+            pCreationPars.PixelType = rstPixelType.PT_UCHAR;
+            IMosaicWorkspaceExtensionHelper pMosaicExentionHelper = new MosaicWorkspaceExtensionHelperClass();
+            IMosaicWorkspaceExtension pMosaicExtention = pMosaicExentionHelper.FindExtension(pFgdbWorkspace);
+            return pMosaicExtention.CreateMosaicDataset(pMDame,pSrs,pCreationPars,"");
+        }
+        /// <summary>
+        /// 根据图层的名称获取图层的方法
+        /// </summary>
+        /// <param name="pMap"></param>
+        /// <param name="LayerName"></param>
+        /// <returns></returns>
+        private ILayer GetLayer(IMap pMap, string LayerName)
+        {
+            IEnumLayer pEnunLayer;
+            pEnunLayer = pMap.get_Layers(null, false);
+            pEnunLayer.Reset();
+            ILayer pRetureLayer;
+            pRetureLayer = pEnunLayer.Next();
+            while (pRetureLayer != null)
+            {
+                if (pRetureLayer.Name == LayerName)
+                {
+                    break;
+                }
+                pRetureLayer = pEnunLayer.Next();
+            }
+            return pRetureLayer;
+        }
+
+        /// <summary>
+        /// 输出结果为一张表，这张表有三个字段，其中面ID为面要素数据的FID
+        /// 个数用于记录这个面包含的点的个数
+        /// </summary>
+        /// <param name="_TablePath"></param>
+        /// <param name="_TableName"></param>
+        /// <returns></returns>
+        public ITable CreateTable(string _TablePath, string _TableName)
+        {
+            IWorkspaceFactory pWks = new ShapefileWorkspaceFactoryClass();
+            IFeatureWorkspace pFwk = pWks.OpenFromFile(_TablePath, 0) as IFeatureWorkspace;
+            //用于记录面中的ID;
+            IField pFieldID = new FieldClass();
+            IFieldEdit pFieldIID = pFieldID as IFieldEdit;
+            pFieldIID.Type_2 = esriFieldType.esriFieldTypeInteger;
+            pFieldIID.Name_2 = "面ID";
+            //用于记录个数的;
+            IField pFieldCount = new FieldClass();
+            IFieldEdit pFieldICount = pFieldCount as IFieldEdit;
+            pFieldICount.Type_2 = esriFieldType.esriFieldTypeInteger;
+            pFieldICount.Name_2 = "个数";
+            //用于添加表中的必要字段
+            ESRI.ArcGIS.Geodatabase.IObjectClassDescription objectClassDescription =
+            new ESRI.ArcGIS.Geodatabase.ObjectClassDescriptionClass();
+            IFields pTableFields = objectClassDescription.RequiredFields;
+            IFieldsEdit pTableFieldsEdit = pTableFields as IFieldsEdit;
+            pTableFieldsEdit.AddField(pFieldID);
+            pTableFieldsEdit.AddField(pFieldCount);
+            ITable pTable = pFwk.CreateTable(_TableName, pTableFields, null, null,
+            "");
+            return pTable;
+        }
+        /// <summary>
+        /// 统计需要的数据
+        /// 第一个参数为面数据，第二个参数为点数据，第三个为输出的表
+        /// </summary>
+        /// <param name="_pPolygonFClass"></param>
+        /// <param name="_pPointFClass"></param>
+        /// <param name="_pTable"></param>
+        public void StatisticPointCount(IFeatureClass _pPolygonFClass, IFeatureClass _pPointFClass, ITable _pTable)
+        {
+            IFeatureCursor pPolyCursor = _pPolygonFClass.Search(null, false);
+            IFeature pPolyFeature = pPolyCursor.NextFeature();
+            while (pPolyFeature != null)
+            {
+                IGeometry pPolGeo = pPolyFeature.Shape;
+                int Count = 0;
+                ISpatialFilter spatialFilter = new SpatialFilterClass();
+                spatialFilter.Geometry = pPolGeo;
+                spatialFilter.SpatialRel = esriSpatialRelEnum.esriSpatialRelContains;
+                //spatialFilter.WhereClause = "矿种=" + "'煤'";
+                IFeatureCursor pPointCur = _pPointFClass.Search(spatialFilter, false);
+                if (pPointCur != null)
+                {
+                    IFeature pPointFeature = pPointCur.NextFeature();
+                    while (pPointFeature != null)
+                    {
+                        pPointFeature = pPointCur.NextFeature();
+                        Count++;
+                    }
+                }
+                if (Count != 0)
+                {
+                    IRow pRow = _pTable.CreateRow();
+                    pRow.set_Value(1, pPolyFeature.get_Value(0));
+                    pRow.set_Value(2, Count);
+                    pRow.Store();
+                }
+                pPolyFeature = pPolyCursor.NextFeature();
+            }
         }
 
 
