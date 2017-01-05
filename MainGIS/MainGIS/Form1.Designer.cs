@@ -36,6 +36,7 @@
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataBaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openMDBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openRasterDatasetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.axToolbarControl1 = new ESRI.ArcGIS.Controls.AxToolbarControl();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.axTOCControl1 = new ESRI.ArcGIS.Controls.AxTOCControl();
@@ -48,7 +49,8 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openRasterDatasetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pointToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.axToolbarControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -69,7 +71,8 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.dataBaseToolStripMenuItem});
+            this.dataBaseToolStripMenuItem,
+            this.editToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(849, 25);
@@ -114,6 +117,13 @@
             this.openMDBToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
             this.openMDBToolStripMenuItem.Text = "Open MDB";
             this.openMDBToolStripMenuItem.Click += new System.EventHandler(this.openMDBToolStripMenuItem_Click);
+            // 
+            // openRasterDatasetToolStripMenuItem
+            // 
+            this.openRasterDatasetToolStripMenuItem.Name = "openRasterDatasetToolStripMenuItem";
+            this.openRasterDatasetToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
+            this.openRasterDatasetToolStripMenuItem.Text = "Open Raster Dataset";
+            this.openRasterDatasetToolStripMenuItem.Click += new System.EventHandler(this.openRasterDatasetToolStripMenuItem_Click);
             // 
             // axToolbarControl1
             // 
@@ -237,12 +247,19 @@
             this.deleteToolStripMenuItem.Text = "Delete Layer";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
-            // openRasterDatasetToolStripMenuItem
+            // editToolStripMenuItem
             // 
-            this.openRasterDatasetToolStripMenuItem.Name = "openRasterDatasetToolStripMenuItem";
-            this.openRasterDatasetToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
-            this.openRasterDatasetToolStripMenuItem.Text = "Open Raster Dataset";
-            this.openRasterDatasetToolStripMenuItem.Click += new System.EventHandler(this.openRasterDatasetToolStripMenuItem_Click);
+            this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.pointToolStripMenuItem});
+            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(42, 21);
+            this.editToolStripMenuItem.Text = "Edit";
+            // 
+            // pointToolStripMenuItem
+            // 
+            this.pointToolStripMenuItem.Name = "pointToolStripMenuItem";
+            this.pointToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.pointToolStripMenuItem.Text = "Point";
             // 
             // Form1
             // 
@@ -296,6 +313,8 @@
         private System.Windows.Forms.ToolStripMenuItem openMDBToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openRasterDatasetToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pointToolStripMenuItem;
     }
 }
 

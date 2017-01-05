@@ -362,6 +362,123 @@ namespace MainGIS
             }
         }
 
+        /// <summary>
+        /// 数据转换
+        /// </summary>
+        /// <param name="_pSWorkspaceFactory"></param>
+        /// <param name="_pSWs"></param>
+        /// <param name="_pSName"></param>
+        /// <param name="_pTWorkspaceFactory"></param>
+        /// <param name="_pTWs"></param>
+        /// <param name="_pTName"></param>
+        public void ConvertFeatureClass(IWorkspaceFactory _pSWorkspaceFactory, string _pSWs, string _pSName, IWorkspaceFactory _pTWorkspaceFactory, string _pTWs, string _pTName)
+        {
+            //Open the source and target workspace
+            IWorkspace pSWorkspace = _pSWorkspaceFactory.OpenFromFile(_pSWs, 0);
+            IWorkspace pTWorkspace = _pTWorkspaceFactory.OpenFromFile(_pTWs, 0);
+            IFeatureWorkspace pFtWs = pSWorkspace as IFeatureWorkspace;
+            IFeatureClass pSourceFeatureClass = pFtWs.OpenFeatureClass(_pSName);
+            IDataset pSDataset = pSourceFeatureClass as IDataset;
+            IFeatureClassName pSourceFeatureClassName = pSDataset.FullName as IFeatureClassName;
 
+            IDataset pTDataset = (IDataset)pTWorkspace;
+            IName pTDatasetName = pTDataset.FullName;
+            IWorkspaceName pTargetWorkspaceName = (IWorkspaceName)pTDatasetName;
+            IFeatureClassName pTargetFeatureClassName = new FeatureClassNameClass();
+            IDatasetName pTargetDatasetName = (IDatasetName)pTargetFeatureClassName;
+            pTargetDatasetName.Name = _pTName;
+            pTargetDatasetName.WorkspaceName = pTargetWorkspaceName;
+            // 创建字段检查对象
+            IFieldChecker pFieldChecker = new FieldCheckerClass();
+            IFields sourceFields = pSourceFeatureClass.Fields;
+            IFields pTargetFields = null;
+            IEnumFieldError pEnumFieldError = null;
+            pFieldChecker.InputWorkspace = pSWorkspace;
+            pFieldChecker.ValidateWorkspace = pTWorkspace;
+            // 验证字段
+            pFieldChecker.Validate(sourceFields, out pEnumFieldError, out pTargetFields);
+            if (pEnumFieldError != null)
+            {
+                // Handle the errors in a way appropriate to your application.
+                Console.WriteLine("Errors were encountered during field validation.");
+            }
+            String pShapeFieldName = pSourceFeatureClass.ShapeFieldName;
+            int pFieldIndex = pSourceFeatureClass.FindField(pShapeFieldName);
+            IField pShapeField = sourceFields.get_Field(pFieldIndex);
+            IGeometryDef pTargetGeometryDef = pShapeField.GeometryDef;
+            // 创建要素转换对象
+            IFeatureDataConverter pFDConverter = new FeatureDataConverterClass();
+            IEnumInvalidObject pEnumInvalidObject = pFDConverter.ConvertFeatureClass(pSourceFeatureClassName, null, null, pTargetFeatureClassName, pTargetGeometryDef, pTargetFields, "", 1000, 0);
+            // Check for errors.
+            IInvalidObjectInfo pInvalidInfo = null;
+            pEnumInvalidObject.Reset();
+            while ((pInvalidInfo = pEnumInvalidObject.Next()) != null)
+            {
+                // Handle the errors in a way appropriate to the application.
+                Console.WriteLine("Errors occurred for the following feature: {0}", pInvalidInfo.InvalidObjectID);
+            }
+
+        }
+
+        /// <summary>
+        /// 创建一个Point对象
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        private IPoint ConstructPoint(double x, double y)
+        {
+            IPoint pPoint = new PointClass();
+            pPoint.PutCoords(x, y);
+            return pPoint;
+        }
+
+        private object pMissing = Type.Missing;
+        /// <summary>
+        /// 构建MultiPoint几何对象
+        /// </summary>
+        /// <returns></returns>
+        public IGeometry GetMultipointGeometry()
+        {
+            const double MultipointPointCount = 25;
+            IPointCollection pPointCollection = new MultipointClass();
+            for (int i = 0; i < MultipointPointCount; i++)
+            {
+                pPointCollection.AddPoint(GetPoint(), ref pMissing, ref pMissing);
+            }
+            return pPointCollection as IGeometry;
+        }
+        private IPoint GetPoint()
+        {
+            const double Min = -10;
+            const double Max = 10;
+            Random pRandom = new Random();
+            double x = Min + (Max - Min) * pRandom.NextDouble();
+            double y = Min + (Max - Min) * pRandom.NextDouble();
+            return ConstructPoint(x, y);
+        }
+
+        /// <summary>
+        /// Polyline 函数
+        /// </summary>
+        /// <returns></returns>
+        public IGeometry GetPolylineGeometry()
+        {
+
+            const double PathCount = 3;
+            const double PathVertexCount = 3;
+            IGeometryCollection pGeometryCollection = new PolylineClass();
+            for (int i = 0; i < PathCount; i++)
+            {
+                IPointCollection pPointCollection = new PathClass();
+                for (int j = 0; j < PathVertexCount; j++)
+                {
+                    pPointCollection.AddPoint(GetPoint(), ref pMissing, ref pMissing);
+                }
+                pGeometryCollection.AddGeometry(pPointCollection as IGeometry, ref pMissing,
+                ref pMissing);
+            }
+            return pGeometryCollection as IGeometry;
+        }
     }
 }
