@@ -480,5 +480,71 @@ namespace MainGIS
             }
             return pGeometryCollection as IGeometry;
         }
+
+        /// <summary>
+        /// 通过点构造面函数
+        /// </summary>
+        /// <param name="pPointCollection"></param>
+        /// <returns></returns>
+        public IPolygon CreatePolygonByPoints(IPointCollection pPointCollection)
+        {
+            IGeometryBridge2 pGeometryBridge2 = new GeometryEnvironmentClass();
+            IPointCollection4 pPolygon = new PolygonClass();
+            WKSPoint[] pWKSPoint = new WKSPoint[pPointCollection.PointCount];
+            for (int i = 0; i < pPointCollection.PointCount; i++)
+            {
+                pWKSPoint[i].X = pPointCollection.get_Point(i).X;
+                pWKSPoint[i].Y = pPointCollection.get_Point(i).Y;
+            }
+            pGeometryBridge2.SetWKSPoints(pPolygon, ref pWKSPoint);
+            IPolygon pPoly = pPolygon as IPolygon;
+            pPoly.Close();
+            return pPoly;
+        }
+
+        /// <summary>
+        /// 平头缓冲
+        /// </summary>
+        /// <param name="pLline1"></param>
+        /// <param name="pBufferDis"></param>
+        /// <returns></returns>
+        private IPolygon FlatBuffer(IPolyline pLline1, double pBufferDis)
+        {
+            object o = System.Type.Missing;
+            //分别对输入的线平移两次（正方向和负方向）
+            IConstructCurve pCurve1 = new PolylineClass();
+            pCurve1.ConstructOffset(pLline1, pBufferDis, ref o, ref o);
+            IPointCollection pCol = pCurve1 as IPointCollection;
+            IConstructCurve pCurve2 = new PolylineClass();
+            pCurve2.ConstructOffset(pLline1, -1 * pBufferDis, ref o, ref o);
+            //把第二次平移的线的所有节点翻转
+            IPolyline pline2 = pCurve2 as IPolyline;
+            pline2.ReverseOrientation();
+            //把第二条的所有节点放到第一条线的IPointCollection里面
+            IPointCollection pCol2 = pline2 as IPointCollection;
+            pCol.AddPointCollection(pCol2);
+            //用面去初始化一个IPointCollection
+            IPointCollection pPointCol = new PolygonClass();
+            pPointCol.AddPointCollection(pCol);
+            //把IPointCollection转换为面
+            IPolygon pPolygon = pPointCol as IPolygon;
+            //简化节点次序
+            pPolygon.SimplifyPreserveFromTo();
+            return pPolygon;
+        }
+
+        /// <summary>
+        /// 等距离打断线
+        /// </summary>
+        /// <param name="pGeometry"></param>
+        /// <param name="inPoints"></param>
+        /// <returns></returns>
+        private IEnumGeometry MakeMultiPoints(IPolyline pGeometry, int inPoints)
+        {
+            IConstructGeometryCollection pConGeoCollection = new GeometryBagClass();
+            pConGeoCollection.ConstructDivideEqual(pGeometry, inPoints, esriConstructDivideEnum.esriDivideIntoPolylines);
+            IEnumGeometry pEnumGeometry = pConGeoCollection as IEnumGeometry;
+            return pEnumGeometry;
+        }
     }
 }
