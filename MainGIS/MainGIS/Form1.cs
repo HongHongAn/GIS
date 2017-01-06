@@ -124,7 +124,7 @@ namespace MainGIS
         {
             this.axToolbarControl1.SetBuddyControl(axPageLayoutControl1);
         }
-        
+
         /// <summary>
         /// Open MDB
         /// </summary>
@@ -243,7 +243,7 @@ namespace MainGIS
         IMosaicDataset GetMosicDataset(string pFGDBPath, string pMDame)
         {
             IWorkspaceFactory pWorkspaceFactory = new FileGDBWorkspaceFactoryClass();
-            IWorkspace pFgdbWorkspace = pWorkspaceFactory.OpenFromFile(pFGDBPath,0);
+            IWorkspace pFgdbWorkspace = pWorkspaceFactory.OpenFromFile(pFGDBPath, 0);
             IMosaicWorkspaceExtensionHelper pMosaicExentionHelper = new MosaicWorkspaceExtensionHelperClass();
             IMosaicWorkspaceExtension pMosaicExtention = pMosaicExentionHelper.FindExtension(pFgdbWorkspace);
             return pMosaicExtention.OpenMosaicDataset(pMDame);
@@ -255,16 +255,16 @@ namespace MainGIS
         /// <param name="pMDame"></param>
         /// <param name="pSrs"></param>
         /// <returns></returns>
-        IMosaicDataset CreateMosaicDataset(string pFGDBPath, string pMDame,ISpatialReference pSrs)
+        IMosaicDataset CreateMosaicDataset(string pFGDBPath, string pMDame, ISpatialReference pSrs)
         {
             IWorkspaceFactory pWorkspaceFactory = new FileGDBWorkspaceFactory();
-            IWorkspace pFgdbWorkspace = pWorkspaceFactory.OpenFromFile(pFGDBPath,0);
+            IWorkspace pFgdbWorkspace = pWorkspaceFactory.OpenFromFile(pFGDBPath, 0);
             ICreateMosaicDatasetParameters pCreationPars = new CreateMosaicDatasetParametersClass();
             pCreationPars.BandCount = 3;
             pCreationPars.PixelType = rstPixelType.PT_UCHAR;
             IMosaicWorkspaceExtensionHelper pMosaicExentionHelper = new MosaicWorkspaceExtensionHelperClass();
             IMosaicWorkspaceExtension pMosaicExtention = pMosaicExentionHelper.FindExtension(pFgdbWorkspace);
-            return pMosaicExtention.CreateMosaicDataset(pMDame,pSrs,pCreationPars,"");
+            return pMosaicExtention.CreateMosaicDataset(pMDame, pSrs, pCreationPars, "");
         }
         /// <summary>
         /// 根据图层的名称获取图层的方法
@@ -545,6 +545,34 @@ namespace MainGIS
             pConGeoCollection.ConstructDivideEqual(pGeometry, inPoints, esriConstructDivideEnum.esriDivideIntoPolylines);
             IEnumGeometry pEnumGeometry = pConGeoCollection as IEnumGeometry;
             return pEnumGeometry;
+        }
+
+        /// <summary>
+        /// 同一基准面的坐标转换
+        /// </summary>
+        /// <param name="pPoint"></param>
+        /// <param name="pBool"></param>
+        /// <returns></returns>
+        private IPoint GetpProjectPoint(IPoint pPoint, bool pBool)
+        {
+            ISpatialReferenceFactory pSpatialReferenceEnvironemnt = new SpatialReferenceEnvironment();
+            ISpatialReference pFormSpatialReference = pSpatialReferenceEnvironemnt.CreateGeographicCoordinateSystem((int)esriSRGeoCS3Type.esriSRGeoCS_Xian1980);
+            ISpatialReference pToSpatialReference = pSpatialReferenceEnvironemnt.CreateProjectedCoordinateSystem((int)esriSRProjCS4Type.esriSRProjCS_Xian1980_3_Degree_GK_Zone_34);//西安80
+            if (pBool == true)//球面转平面
+            {
+                IGeometry pGeo = (IGeometry)pPoint;
+                pGeo.SpatialReference = pFormSpatialReference;
+                pGeo.Project(pToSpatialReference);
+                return pPoint;
+            }
+            else //平面转球面
+            {
+                IGeometry pGeo = (IGeometry)pPoint;
+                pGeo.SpatialReference = pToSpatialReference;
+                pGeo.Project(pFormSpatialReference);
+                return pPoint;
+            }
+
         }
     }
 }
