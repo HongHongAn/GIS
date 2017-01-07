@@ -572,7 +572,38 @@ namespace MainGIS
                 pGeo.Project(pFormSpatialReference);
                 return pPoint;
             }
+        }
 
+        /// <summary>
+        /// 进行Intersect操作
+        /// </summary>
+        /// <param name="_pFtClass"></param>
+        /// <param name="_pFtOverlay"></param>
+        /// <param name="_FilePath"></param>
+        /// <param name="_pFileName"></param>
+        /// <returns></returns>
+        public IFeatureClass Intsect(IFeatureClass _pFtClass, IFeatureClass _pFtOverlay, string _FilePath, string _pFileName)
+        {
+            IFeatureClassName pOutPut = new FeatureClassNameClass();
+            pOutPut.ShapeType = _pFtClass.ShapeType;
+            pOutPut.ShapeFieldName = _pFtClass.ShapeFieldName;
+            pOutPut.FeatureType = esriFeatureType.esriFTSimple;
+            //set output location and feature class name
+            IWorkspaceName pWsN = new WorkspaceNameClass();
+            pWsN.WorkspaceFactoryProgID = "esriDataSourcesFile.ShapefileWorkspaceFactory";
+            pWsN.PathName = _FilePath;
+            //也可以用这种方法，IName 和IDataset的用法
+            /* IWorkspaceFactory pWsFc = new ShapefileWorkspaceFactoryClass();
+            IWorkspace pWs = pWsFc.OpenFromFile(_FilePath， 0);
+            IDataset pDataset = pWs as IDataset;
+            IWorkspaceName pWsN = pDataset.FullName as IWorkspaceName;
+            */
+            IDatasetName pDatasetName = pOutPut as IDatasetName;
+            pDatasetName.Name = _pFileName;
+            pDatasetName.WorkspaceName = pWsN;
+            IBasicGeoprocessor pBasicGeo = new BasicGeoprocessorClass();
+            IFeatureClass pFeatureClass = pBasicGeo.Intersect(_pFtClass as ITable, false, _pFtOverlay as ITable, false, 0.1, pOutPut);
+            return pFeatureClass;
         }
     }
 }
