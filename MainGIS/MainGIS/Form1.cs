@@ -5,6 +5,7 @@ using ESRI.ArcGIS.DataSourcesGDB;
 using ESRI.ArcGIS.DataSourcesRaster;
 using ESRI.ArcGIS.Display;
 using ESRI.ArcGIS.esriSystem;
+using ESRI.ArcGIS.GeoAnalyst;
 using ESRI.ArcGIS.Geodatabase;
 using ESRI.ArcGIS.Geometry;
 using System;
@@ -604,6 +605,38 @@ namespace MainGIS
             IBasicGeoprocessor pBasicGeo = new BasicGeoprocessorClass();
             IFeatureClass pFeatureClass = pBasicGeo.Intersect(_pFtClass as ITable, false, _pFtOverlay as ITable, false, 0.1, pOutPut);
             return pFeatureClass;
+        }
+
+        /// <summary>
+        /// 实现IDW插值
+        /// </summary>
+        /// <param name="_pFeatureClass"></param>
+        /// <param name="_pFieldName"></param>
+        /// <param name="_pDistance"></param>
+        /// <param name="_pCell"></param>
+        /// <param name="_pPower"></param>
+        /// <returns></returns>
+        public IGeoDataset IDW(IFeatureClass _pFeatureClass, string _pFieldName, double _pDistance, double _pCell, int _pPower)
+        {
+            IGeoDataset Geo = _pFeatureClass as IGeoDataset;
+            object pExtent = Geo.Extent;
+            object o = Type.Missing;
+            IFeatureClassDescriptor pFeatureClassDes = new FeatureClassDescriptorClass();
+            pFeatureClassDes.Create(_pFeatureClass, null, _pFieldName);
+            IInterpolationOp plnterOp = new RasterInterpolationOpClass();
+            IRasterAnalysisEnvironment pRasterAEnv = plnterOp as IRasterAnalysisEnvironment;
+            //pRasterAEnv.Mask = Geo;
+            pRasterAEnv.SetExtent(esriRasterEnvSettingEnum.esriRasterEnvValue, ref pExtent, ref o);
+            object pCellSize = _pCell;//可以根据不同的点图层进行设置
+            pRasterAEnv.SetCellSize(esriRasterEnvSettingEnum.esriRasterEnvValue, ref pCellSize);
+            IRasterRadius pRasterrad = new RasterRadiusClass();
+            object obj = Type.Missing;
+            pRasterrad.SetFixed(_pDistance, ref obj);
+            object pBar = Type.Missing;
+            IGeoDataset pGeoIDW = plnterOp.IDW(pFeatureClassDes as IGeoDataset,
+            _pPower, pRasterrad, ref pBar);
+            return pGeoIDW;
+
         }
     }
 }

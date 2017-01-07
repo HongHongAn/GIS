@@ -19,3 +19,4 @@ D:\Work\GitHubLocalpath\GIS\MainGIS\MainGIS\obj\Debug\MainGIS.frmAttributeTable.
 D:\Work\GitHubLocalpath\GIS\MainGIS\MainGIS\obj\Debug\MainGIS.frmOpenMDB.resources
 D:\Work\GitHubLocalpath\GIS\MainGIS\MainGIS\obj\Debug\MainGIS.Properties.Resources.resources
 D:\Work\GitHubLocalpath\GIS\MainGIS\MainGIS\obj\Debug\MainGIS.csproj.GenerateResource.Cache
+D:\Work\GitHubLocalpath\GIS\MainGIS\MainGIS\obj\Debug\MainGIS.csprojResolveAssemblyReference.cache
