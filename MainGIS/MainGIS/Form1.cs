@@ -636,7 +636,35 @@ namespace MainGIS
             IGeoDataset pGeoIDW = plnterOp.IDW(pFeatureClassDes as IGeoDataset,
             _pPower, pRasterrad, ref pBar);
             return pGeoIDW;
-
         }
+        //HSVcolor
+        public IHsvColor Hsv(int hue, int saturation, int val)
+        {
+            IHsvColor pHsvC;
+            pHsvC = new HsvColorClass();
+            pHsvC.Hue = hue;
+            pHsvC.Saturation = saturation;
+            pHsvC.Value = val;
+            return pHsvC;
+        }
+
+        /// <summary>
+        /// RGBcolor
+        /// </summary>
+        /// <param name="r"></param>
+        /// <param name="g"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public IRgbColor ColorRgb(int r, int g, int b)
+        {
+            IRgbColor pRGB;
+            pRGB = new RgbColorClass();
+            pRGB.Red = r;
+            pRGB.Green = g;
+            pRGB.Blue = b;
+            return pRGB;
+        }
+        
+        
     }
 }
