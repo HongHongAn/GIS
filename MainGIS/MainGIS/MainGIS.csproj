@@ -107,6 +107,12 @@
     <Compile Include="frmAttributeTable.Designer.cs">
       <DependentUpon>frmAttributeTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmKriging.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmKriging.Designer.cs">
+      <DependentUpon>frmKriging.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmOpenMDB.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -121,6 +127,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmAttributeTable.resx">
       <DependentUpon>frmAttributeTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmKriging.resx">
+      <DependentUpon>frmKriging.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmOpenMDB.resx">
       <DependentUpon>frmOpenMDB.cs</DependentUpon>

@@ -664,6 +664,17 @@ namespace MainGIS
             pRGB.Blue = b;
             return pRGB;
         }
+
+        /// <summary>
+        /// 克吕金插值
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void krigingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmKriging frmKriging = new frmKriging();
+            frmKriging.Show();
+        }
         
         
     }

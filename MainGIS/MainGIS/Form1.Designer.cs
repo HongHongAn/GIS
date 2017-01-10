@@ -37,6 +37,11 @@
             this.dataBaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openMDBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openRasterDatasetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pointToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.spatialAnalysisToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.interpolationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.krigingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.axToolbarControl1 = new ESRI.ArcGIS.Controls.AxToolbarControl();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.axTOCControl1 = new ESRI.ArcGIS.Controls.AxTOCControl();
@@ -49,8 +54,6 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pointToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.axToolbarControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -72,7 +75,8 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.dataBaseToolStripMenuItem,
-            this.editToolStripMenuItem});
+            this.editToolStripMenuItem,
+            this.spatialAnalysisToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(849, 25);
@@ -124,6 +128,43 @@
             this.openRasterDatasetToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
             this.openRasterDatasetToolStripMenuItem.Text = "Open Raster Dataset";
             this.openRasterDatasetToolStripMenuItem.Click += new System.EventHandler(this.openRasterDatasetToolStripMenuItem_Click);
+            // 
+            // editToolStripMenuItem
+            // 
+            this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.pointToolStripMenuItem});
+            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(42, 21);
+            this.editToolStripMenuItem.Text = "Edit";
+            // 
+            // pointToolStripMenuItem
+            // 
+            this.pointToolStripMenuItem.Name = "pointToolStripMenuItem";
+            this.pointToolStripMenuItem.Size = new System.Drawing.Size(105, 22);
+            this.pointToolStripMenuItem.Text = "Point";
+            // 
+            // spatialAnalysisToolStripMenuItem
+            // 
+            this.spatialAnalysisToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.interpolationToolStripMenuItem});
+            this.spatialAnalysisToolStripMenuItem.Name = "spatialAnalysisToolStripMenuItem";
+            this.spatialAnalysisToolStripMenuItem.Size = new System.Drawing.Size(105, 21);
+            this.spatialAnalysisToolStripMenuItem.Text = "SpatialAnalysis";
+            // 
+            // interpolationToolStripMenuItem
+            // 
+            this.interpolationToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.krigingToolStripMenuItem});
+            this.interpolationToolStripMenuItem.Name = "interpolationToolStripMenuItem";
+            this.interpolationToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.interpolationToolStripMenuItem.Text = "Interpolation";
+            // 
+            // krigingToolStripMenuItem
+            // 
+            this.krigingToolStripMenuItem.Name = "krigingToolStripMenuItem";
+            this.krigingToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.krigingToolStripMenuItem.Text = "Kriging";
+            this.krigingToolStripMenuItem.Click += new System.EventHandler(this.krigingToolStripMenuItem_Click);
             // 
             // axToolbarControl1
             // 
@@ -247,20 +288,6 @@
             this.deleteToolStripMenuItem.Text = "Delete Layer";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
-            // editToolStripMenuItem
-            // 
-            this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.pointToolStripMenuItem});
-            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(42, 21);
-            this.editToolStripMenuItem.Text = "Edit";
-            // 
-            // pointToolStripMenuItem
-            // 
-            this.pointToolStripMenuItem.Name = "pointToolStripMenuItem";
-            this.pointToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.pointToolStripMenuItem.Text = "Point";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -315,6 +342,9 @@
         private System.Windows.Forms.ToolStripMenuItem openRasterDatasetToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pointToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem spatialAnalysisToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem interpolationToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem krigingToolStripMenuItem;
     }
 }
 
